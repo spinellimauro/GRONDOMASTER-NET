@@ -1,0 +1,56 @@
+<app-spinner></app-spinner>
+<!--<mat-toolbar color="primary" *ngIf="isLogged()" style="margin-bottom: 2em;">
+  <mat-toolbar-row class="grid-x grid-padding-x align-justify">
+    <div class="cell small-4">
+      <button mat-button (click)="toHome()">
+        <mat-icon>home</mat-icon>
+      </button>
+      <span class="menu-spacer"></span>
+    </div>
+    <div class="cell small-4 alignToRightContent">
+      <button mat-button [matMenuTriggerFor]="menu">Bienvenido/a {{logged?.Name}}</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item class="widthAuto" routerLink="/cambio-contrasena">
+          <mat-icon mat-list-icon>vpn_key</mat-icon>
+          Cambiar contraseña
+        </button>
+        <button mat-menu-item (click)="logOut()">
+          <mat-icon mat-list-icon>exit_to_app</mat-icon>
+          Cerrar sesión
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar> -->
+
+<p-menubar *ngIf="isLogged()" [model]="items">
+  <ng-template pTemplate="start">
+  </ng-template>
+  <ng-template pTemplate="end">
+    <button mat-button [matMenuTriggerFor]="menu">Bienvenido/a {{logged?.Name}}</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item class="widthAuto" routerLink="/cambio-contrasena">
+        <mat-icon mat-list-icon>vpn_key</mat-icon>
+        Cambiar contraseña
+      </button>
+      <button mat-menu-item (click)="logOut()">
+        <mat-icon mat-list-icon>exit_to_app</mat-icon>
+        Cerrar sesión
+      </button>
+    </mat-menu>
+  </ng-template>
+</p-menubar>
+
+<div [ngClass]="{'grid-x': isLogged()}">
+  <div [ngClass]="{'medium-2 large-2 cell': isLogged()}"></div>
+  <div [ngClass]="{'medium-8 large-8 cell': isLogged()}">
+    <div style="background-color: white;">
+      <div class="main">
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div [ngClass]="{'medium-2 large-2 cell': isLogged()}"></div>
+</div>

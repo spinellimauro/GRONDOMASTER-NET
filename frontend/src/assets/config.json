@@ -1,0 +1,55 @@
+{
+  "URI": {
+    "Server": "http://localhost:8080/",
+    "Api": "api/",
+    "Auth": "auth",
+    "Usuario": "user",
+    "Jugador": "soFifa",
+    "Plantilla": "player",
+    "Sofifa": "equipos-sofifa"
+  },
+  "Mensajes": {
+    "TituloSuccess": "Atención",
+    "AUsuario": "Usuario agregado",
+    "MUsuario": "Usuario editado",
+    "BUsuario": "Usuario eliminado"
+  },
+  "Validaciones": {
+    "ValidacionContrasenaNueva": [
+      "La contraseña debe cumplir los siguientes requisitos:\nEntre 8 y 30 caracteres\nAl menos una letra mayúscula (A-Z)\nAl menos una letra minúscula (a-z)\nAl menos un número (0-9)"
+    ],
+    "ConfirmacionContrasenaNueva": "No coincide con la nueva contraseña",
+    "Users": {
+      "Rol": "Seleccione al menos un rol",
+      "Nombre": "Ingrese el nombre del usuario",
+      "Apellido": "Ingrese el apellido del usuario",
+      "Email": "Ingrese el email del usuario",
+      "Password": "Ingrese el password del usuario",
+      "PasswordMinLength": "Debe tener al menos 8 caracteres",
+      "PasswordMaxLength": "Debe tener como máximo 30 caracteres",
+      "PasswordSpecific": "Debe tener al menos una letra mayúscula, una letra minúscula y un número",
+      "Equipo": "Debe seleccionar un equipo"
+    },
+    "Login": {
+      "Usuario": "Ingrese el nombre de usuario",
+      "Password": "Ingrese el password del usuario"
+    }
+  },
+  "Etiquetas": {
+    "Guardar": "Guardar",
+    "Seleccione": "Seleccione",
+    "SeleccioneEquipo": "Seleccione un equipo",
+    "Register": "Registrarme",
+    "Users": {
+      "Rol": "Roles",
+      "Datos": "Datos de Usuario",
+      "Habilitacion": "Habilitación"
+    },
+    "Login": {
+      "Titulo": "Login"
+    }
+  },
+  "Configuraciones": {
+    "ImagenDefaultJugador": "https://cdn.sofifa.com/players/notfound_0_240.png"
+  }
+}
