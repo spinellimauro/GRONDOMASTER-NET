@@ -3,10 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Suceso
 {
-    public int id { get; set; }
-    public Jugador jugador { get; set; }
-    public int cantidadGoles { get; set; }
-    public int cantidadAmarillas { get; set; }
-    public int cantidadRojas { get; set; }
+    public int Id { get; set; }
+    public Jugador Jugador { get; set; }
+    public Partido Partido { get; set; }
+    public int CantidadGoles { get; set; }
+    public int CantidadAmarillas { get; set; }
+    public int CantidadRojas { get; set; }
+    public int IdJugador { get; set; }
+    public int IdPartido { get; set; }
 
 }

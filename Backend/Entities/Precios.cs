@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Precios
 {
-    public int id { get; set; }
-    public int nivel { get; set; }
-    public double precio { get; set; }
+    public int Id { get; set; }
+    public int Nivel { get; set; }
+    public double Precio { get; set; }
 
 }

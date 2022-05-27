@@ -11,5 +11,8 @@ public class Transferencia
 
     public int IdDTComprador { get; set; }
     public int IdDTVendedor { get; set; }
+    public int IdJugador { get; set; }
+    public Mercado Mercado { get; set; }
+    public int IdMercado { get; set; }
 
 }

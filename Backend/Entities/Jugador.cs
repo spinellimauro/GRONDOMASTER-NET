@@ -20,6 +20,8 @@ public class Jugador
     public int IdEquipo { get; set; }
     public List<Oferta> OfertasRecibidas { get; set; }
     public List<Oferta> OfertasOfrecido { get; set; }
+    public List<Transferencia> Transferencias { get; set; }
+    public List<Suceso> Sucesos { get; set; }
 
 
 

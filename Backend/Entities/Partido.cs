@@ -10,5 +10,8 @@ public class Partido
     public Torneo Torneo { get; set; }
     public List<Suceso> Sucesos { get; set; }
     public Boolean Finalizado { get; set; }
+    public int IdEquipoLocal { get; set; }
+    public int IdEquipoVisitante { get; set; }
+    public int IdTorneo { get; set; }
 
 }

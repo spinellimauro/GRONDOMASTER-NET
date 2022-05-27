@@ -26,12 +26,16 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new JugadorConfiguration());
         modelBuilder.ApplyConfiguration(new TransferenciaConfiguration());
         modelBuilder.ApplyConfiguration(new OfertaConfiguration());
+        modelBuilder.ApplyConfiguration(new SucesoConfiguration());
+        modelBuilder.ApplyConfiguration(new MercadoConfiguration());
+        modelBuilder.ApplyConfiguration(new PrecioEventoConfiguration());
+        modelBuilder.ApplyConfiguration(new PrecioConfiguration());
+        modelBuilder.ApplyConfiguration(new PremioEventoConfiguration());
 
         base.OnModelCreating(modelBuilder);
 
     }
 
-    // public DbSet<Contact> Contacts { get; set; }
     public DbSet<DT> Manager { get; set; }
     public DbSet<Equipo> Equipo { get; set; }
     public DbSet<EquipoSofifa> EquipoSofifa { get; set; }

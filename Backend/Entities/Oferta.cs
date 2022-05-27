@@ -13,5 +13,7 @@ public class Oferta
     public int IdDtReceptor { get; set; }
     public int IdJugadorOfertado { get; set; }
     public int IdJugadorOfrecido { get; set; }
+    public Mercado Mercado { get; set; }
+    public int IdMercado { get; set; }
 
 }

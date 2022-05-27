@@ -19,5 +19,9 @@ public class TransferenciaConfiguration : IEntityTypeConfiguration<Transferencia
         builder.HasOne(trans => trans.DtVendedor)
                 .WithMany(c => c.Compras)
                 .HasForeignKey(trans => trans.IdDTVendedor);
+
+        builder.HasOne(trans => trans.Jugador)
+                .WithMany(c => c.Transferencias)
+                .HasForeignKey(trans => trans.IdJugador);
     }
 }
