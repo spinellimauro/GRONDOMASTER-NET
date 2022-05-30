@@ -5,8 +5,10 @@ public class DomainToViewModelMappingProfile : Profile
     public DomainToViewModelMappingProfile()
     {
 
-        // CreateMap<Contact, ContactViewModel>();
-        // CreateMap<Company, CompanyViewModel>();
+        CreateMap<User, UserViewModel>();
+        CreateMap<User, RegisterViewModel>();
+        CreateMap<User, SaveUserViewModel>();
+        CreateMap<DT, SaveUserViewModel>();
     }
 
 }

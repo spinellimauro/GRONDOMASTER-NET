@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
 {
     private string _connection;
     public IConfiguration Configuration { get; }
@@ -35,6 +37,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new TransferenciaConfiguration());
         modelBuilder.ApplyConfiguration(new OfertaJugadorConfiguration());
         modelBuilder.ApplyConfiguration(new TorneoEquipoConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
 
         base.OnModelCreating(modelBuilder);
 
@@ -55,4 +58,5 @@ public class ApplicationDbContext : DbContext
     public DbSet<Transferencia> Transferencia { get; set; }
     public DbSet<OfertaJugador> OfertaJugador { get; set; }
     public DbSet<TorneoEquipo> TorneoEquipo { get; set; }
+    public DbSet<ApplicationUser> Users { get; set; }
 }

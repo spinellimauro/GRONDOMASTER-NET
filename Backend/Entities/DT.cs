@@ -11,11 +11,12 @@ public class DT
     public int TorneosDisponibles { get; set; }
     public int Slots { get; set; }
     public Boolean Enabled { get; set; }
-
     public List<Transferencia> Compras { get; set; }
     public List<Transferencia> Ventas { get; set; }
     public List<Oferta> OfertasRecibidas { get; set; }
     public List<Oferta> OfertasRealizadas { get; set; }
+    public ApplicationUser User { get; set; }
+    public int UserId { get; set; }
     public int IdEquipo { get; set; }
 
 }

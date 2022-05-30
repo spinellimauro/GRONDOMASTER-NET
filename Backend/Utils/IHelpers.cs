@@ -3,6 +3,6 @@ using System.Collections.Generic;
 
 public interface IHelpers
 {
-    int GetTotalPages();
+    DateTime GetCurrentDateTime();
 
 }

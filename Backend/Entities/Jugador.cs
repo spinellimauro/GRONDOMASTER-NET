@@ -17,13 +17,7 @@ public class Jugador
     public double PrecioVenta { get; set; }
     public int VecesImpagas { get; set; }
     public Equipo Equipo { get; set; }
-    public int IdEquipo { get; set; }
-    // public List<Oferta> OfertasRecibidas { get; set; }
-    // public List<Oferta> OfertasOfrecido { get; set; }
-    public List<OfertaJugador> OfertasJugador { get; set; }
+    public int IdEquipo { get; set; }    public List<OfertaJugador> OfertasJugador { get; set; }
     public List<Transferencia> Transferencias { get; set; }
     public List<Suceso> Sucesos { get; set; }
-
-
-
 }

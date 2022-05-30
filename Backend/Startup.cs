@@ -40,7 +40,7 @@ public class Startup
         .AddTransient<IUnitOfWork, UnitOfWork>()
         .AddTransient<IHelpers, Helpers>();
 
-        services.AddIdentity<User, IdentityRole>(config =>
+        services.AddIdentity<ApplicationUser, ApplicationRole>(config =>
             {
                 config.User.RequireUniqueEmail = true;
                 config.Password.RequiredLength = 8;
@@ -52,8 +52,8 @@ public class Startup
                 config.Lockout.MaxFailedAccessAttempts = 5;
                 // config.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(Convert.ToDouble(sesionCaducada));
             })
-                    .AddEntityFrameworkStores<ApplicationDbContext>()
-                    .AddDefaultTokenProviders();
+                    .AddDefaultTokenProviders()
+                    .AddEntityFrameworkStores<ApplicationDbContext>();
 
         services
         .Configure<Settings>(Configuration.GetSection("Settings"))
@@ -61,33 +61,18 @@ public class Startup
 
         services
             .AddHttpContextAccessor()
-            .AddAuthorization()
-            // .AddAuthorization(options => 
-            //     {
-            //         var claiName = "Rol";
+            // .AddAuthorization()
+            .AddAuthorization(options =>
+                {
+                    var claiName = "Rol";
 
-            //         options.AddPolicy(Roles.ADM, policy =>
-            //             policy.RequireClaim(claiName, Roles.ADM));
+                    options.AddPolicy(Roles.ADM, policy =>
+                        policy.RequireClaim(claiName, Roles.ADM));
 
-            //         options.AddPolicy(Roles.CONSULTA, policy =>
-            //             policy.RequireClaim(claiName, Roles.CONSULTA));
+                    options.AddPolicy(Roles.USUARIO, policy =>
+                        policy.RequireClaim(claiName, Roles.USUARIO));
 
-            //         options.AddPolicy(Roles.ADMVENTASDISTRIBUIDORVENDEDOR, policy =>
-            //             policy.RequireAssertion(context => { return 
-            //                 context.User.HasClaim(claiName, Roles.ADMVENTAS) || 
-            //                 context.User.HasClaim(claiName, Roles.DISTRIBUIDOR) || 
-            //                 context.User.HasClaim(claiName, Roles.VENDEDOR) ;
-            //             }
-            //         ));
-
-            //         options.AddPolicy(Roles.ADMyADMVENTAS, policy =>
-            //             policy.RequireAssertion(context => { return 
-            //                 context.User.HasClaim(claiName, Roles.ADMVENTAS) || 
-            //                 context.User.HasClaim(claiName, Roles.ADM) ;
-            //             }
-            //         ));
-
-            //     })
+                })
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             // .AddAuthentication(options =>
             // {

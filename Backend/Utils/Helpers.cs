@@ -11,13 +11,11 @@ public class Helpers : IHelpers
         this.settings = _settings.Value;
     }
 
-    public int GetTotalPages()
+    public DateTime GetCurrentDateTime()
     {
-        int totalItemsPerPages = 0;
-
-        Int32.TryParse(settings.TotalContactsByCompanyPerPage, out totalItemsPerPages);
-
-        return totalItemsPerPages;
+        var timezone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+        var currentDateTime = TimeZoneInfo.ConvertTime(DateTime.UtcNow, timezone);
+        return currentDateTime;
     }
 
 }

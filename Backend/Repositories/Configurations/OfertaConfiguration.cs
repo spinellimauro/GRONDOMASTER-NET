@@ -21,10 +21,5 @@ public class OfertaConfiguration : IEntityTypeConfiguration<Oferta>
                 .WithMany(dt => dt.OfertasRecibidas)
                 .HasForeignKey(oferta => oferta.IdDtReceptor)
                 .OnDelete(DeleteBehavior.ClientSetNull);
-
-        // builder.HasOne(oferta => oferta.JugadorOfertado)
-        //         .WithMany(jugador => jugador.OfertasRecibidas)
-        //         .HasForeignKey(oferta => oferta.IdJugadorOfertado)
-        //         .OnDelete(DeleteBehavior.ClientSetNull);
     }
 }

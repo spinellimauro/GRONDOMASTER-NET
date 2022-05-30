@@ -19,6 +19,8 @@
 //     {
 
 //         private readonly IContactRepository repository;
+//         private readonly IHelpers helper;
+//         private readonly UsuarioSettings settings;
 //         private readonly IUnitOfWork unitOfWork;
 //         private readonly IMapper mapper;
 //         private readonly Messages messages;
@@ -29,6 +31,8 @@
 
 //         public AuthController(IContactRepository _repository,
 //             UserManager<User> _userManager,
+//             UsuarioSettings _settings,
+//             IHelpers _helper,
 //             RoleManager<IdentityRole> _roleManager,
 //             IUnitOfWork _unitOfWork,
 //             IMapper _mapper,
@@ -42,6 +46,8 @@
 //             mapper = _mapper;
 //             messages = _messages.Value;
 //             Configuration = configuration;
+//             helper = _helper;
+//             settings = _settings;
 //         }
 
 //         [HttpPost("Login")]
@@ -50,7 +56,7 @@
 //             var Now = DateTime.UtcNow;
 
 //             //dbSeeder.SeedAsync().Wait();
-//             User user = await repository.FindByNameAsync(model.UserName);
+//             User user = await repository.FindByEmailAsync(model.Email);
 
 //             if (user == null)
 //                 return NotFound(Configuration["Messages:ErrorUsuarioPasswordInvalido"]);
@@ -77,7 +83,7 @@
 //             user.LastLoginTime = Now;
 
 //             if (!user.FirstLogin)
-//                 user.FirstLoginDate = Helpers.GetCurrentDateTime();
+//                 user.FirstLoginDate = helper.GetCurrentDateTime();
 
 //             await userManager.UpdateAsync(user);
 
@@ -115,43 +121,28 @@
 
 //         }
 
-//         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = Roles.ADM)]
+//         // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = Roles.ADM)]
 //         [HttpPost("Register")]
 //         public async Task<object> Registro([FromBody] SaveUserViewModel model)
 //         {
 
-//             User user = await userManager.FindByNameAsync(model.UserName);
-//             DT usuario = mapper.Map<SaveUserViewModel, Usuario>(model);
-//             User newUser = new User();
-//             string newPassword = "";
+//             User user = await userManager.FindByEmailAsync(model.Email);
+//             DT usuario = mapper.Map<SaveUserViewModel, DT>(model);
 
 //             if (user != null)
-//             {
-//                 if (repository.GetUsuarioByUsuario(usuario) != null)
-//                 {
-//                     return BadRequest(Configuration["Messages:ErrorUsuarioExistente"]);
-//                 }
+//                 return BadRequest(Configuration["Messages:ErrorUsuarioExistente"]);
 
-//                 usuario.FechaCreacion = Helpers.GetCurrentDateTime();
-//                 newPassword = repository.GenerateRandomPassword();
-//                 newUser = await userManager.FindByNameAsync(model.UserName);
-//             }
-//             else
-//             {
+//             User newUser = mapper.Map<SaveUserViewModel, User>(model);
+//             usuario.FechaCreacion = helper.GetCurrentDateTime();
+//             newUser.Usuario = repository.SetUsuariosRolesByIdentitiesRoles(model.Perfil, usuario);
 
-//                 newUser = mapper.Map<SaveUserViewModel, User>(model);
-//                 usuario.FechaCreacion = Helpers.GetCurrentDateTime();
-//                 newUser.Usuario = repository.SetUsuariosRolesByIdentitiesRoles(model.Perfil, usuario);
+//             string newPassword = model.Password;
+//             var identityResult = await repository.CreateUserAsync(newUser, newPassword);
 
-//                 newPassword = repository.GenerateRandomPassword();
-//                 var identityResult = await repository.CreateUserAsync(newUser, newPassword);
+//             if (!identityResult.Succeeded)
+//                 return NotFound(Configuration["Messages:ErrorRegister"]);
 
-//                 if (!identityResult.Succeeded)
-//                     return NotFound(Configuration["Messages:ErrorRegister"]);
-
-//                 await userManager.SetLockoutEnabledAsync(newUser, model.Bloqueado);
-
-//             }
+//             await userManager.SetLockoutEnabledAsync(newUser, model.Enabled);
 
 //             await repository.AddRolesAsync(newUser, model.Perfil);
 
@@ -160,34 +151,31 @@
 //             return Ok(mapper.Map<DT, SaveUserViewModel>(usuarioFront));
 //         }
 
-//         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = Roles.ADM)]
+//         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = Roles.USUARIO)]
 //         [HttpPost("MUsuario")]
-//         public async Task<IActionResult> MUsuario(string userName, [FromBody] SaveUserViewModel model)
+//         public async Task<IActionResult> MUsuario(string email, [FromBody] SaveUserViewModel model)
 //         {
-//             User userDB = await userManager.FindByNameAsync(userName);
+//             User userDB = await userManager.FindByNameAsync(email);
 
 //             if (userDB == null)
 //                 return NotFound(Configuration["Messages:ErrorIdUsuario"]);
 
 //             DT usuario = mapper.Map<SaveUserViewModel, DT>(model);
-//             usuario.id = userName;
-//             usuario = repository.SetUsuariosRolesByIdentitiesRoles(model.Perfil, usuario);
-//             DT usuarioDB = repository.GetUsuarioByUserName(usuario.id);
+
+//             DT usuarioDB = repository.GetUsuarioByEmail(email);
 
 //             if (usuarioDB == null)
 //                 return NotFound(Configuration["Messages:ErrorIdUsuario"]);
 
 //             User user = mapper.Map<SaveUserViewModel, User>(model);
 
-//             await repository.AddRoles(usuario, usuarioDB);
-//             repository.MUsuario(usuarioDB.Codigo, usuario, usuarioDB);
-//             await repository.RemoveRoles(usuario, usuarioDB);
+//             repository.MUsuario(usuarioDB.Id, usuario, usuarioDB);
 
 //             userDB = repository.MUser(userDB, user, settings.Time).Result;
 
 //             await userManager.UpdateAsync(userDB);
 
-//             DT usuarioFront = repository.GetUsuarioByUserName(usuario.id);
+//             DT usuarioFront = repository.GetUsuarioByEmail(userDB.Email);
 
 //             return Ok(mapper.Map<DT, SaveUserViewModel>(usuarioFront));
 //         }
@@ -214,7 +202,7 @@
 //             if (!identityResult.Succeeded)
 //                 return NotFound(Configuration["Messages:ErrorCambioPassword"]);
 
-//             user.LastPasswordChangedDate = Helpers.GetCurrentDateTime();
+//             user.LastPasswordChangedDate = helper.GetCurrentDateTime();
 //             await userManager.UpdateAsync(user);
 
 //             return Ok(mapper.Map<User, UserViewModel>(user));

@@ -8,7 +8,6 @@ public class Transferencia
     public DT DtVendedor { get; set; }
     public double Monto { get; set; }
     public Jugador Jugador { get; set; }
-
     public int IdDTComprador { get; set; }
     public int IdDTVendedor { get; set; }
     public int IdJugador { get; set; }

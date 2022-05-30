@@ -4,7 +4,9 @@ public class ViewModelToDomainMappingProfile : Profile
 {
     public ViewModelToDomainMappingProfile()
     {
-        // CreateMap<ContactViewModel, Contact>();
-        // CreateMap<CompanyViewModel, Company>();
+        CreateMap<UserViewModel, User>();
+        CreateMap<RegisterViewModel, User>();
+        CreateMap<SaveUserViewModel, User>();
+        CreateMap<SaveUserViewModel, DT>();
     }
 }
