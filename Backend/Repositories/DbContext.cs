@@ -24,13 +24,17 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new EquipoConfiguration());
         modelBuilder.ApplyConfiguration(new EquipoSofifaConfiguration());
         modelBuilder.ApplyConfiguration(new JugadorConfiguration());
-        modelBuilder.ApplyConfiguration(new TransferenciaConfiguration());
-        modelBuilder.ApplyConfiguration(new OfertaConfiguration());
-        modelBuilder.ApplyConfiguration(new SucesoConfiguration());
         modelBuilder.ApplyConfiguration(new MercadoConfiguration());
-        modelBuilder.ApplyConfiguration(new PrecioEventoConfiguration());
+        modelBuilder.ApplyConfiguration(new OfertaConfiguration());
+        modelBuilder.ApplyConfiguration(new PartidoConfiguration());
         modelBuilder.ApplyConfiguration(new PrecioConfiguration());
+        modelBuilder.ApplyConfiguration(new PrecioEventoConfiguration());
         modelBuilder.ApplyConfiguration(new PremioEventoConfiguration());
+        modelBuilder.ApplyConfiguration(new SucesoConfiguration());
+        modelBuilder.ApplyConfiguration(new TorneoConfiguration());
+        modelBuilder.ApplyConfiguration(new TransferenciaConfiguration());
+        modelBuilder.ApplyConfiguration(new OfertaJugadorConfiguration());
+        modelBuilder.ApplyConfiguration(new TorneoEquipoConfiguration());
 
         base.OnModelCreating(modelBuilder);
 
@@ -49,4 +53,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<Suceso> Suceso { get; set; }
     public DbSet<Torneo> Torneo { get; set; }
     public DbSet<Transferencia> Transferencia { get; set; }
+    public DbSet<OfertaJugador> OfertaJugador { get; set; }
+    public DbSet<TorneoEquipo> TorneoEquipo { get; set; }
 }

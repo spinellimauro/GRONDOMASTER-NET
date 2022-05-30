@@ -36,7 +36,7 @@ public class Startup
         );
 
         services
-        .AddTransient<IContactRepository, ContactRepository>()
+        // .AddTransient<IContactRepository, ContactRepository>()
         .AddTransient<IUnitOfWork, UnitOfWork>()
         .AddTransient<IHelpers, Helpers>();
 

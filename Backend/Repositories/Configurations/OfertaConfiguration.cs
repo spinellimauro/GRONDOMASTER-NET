@@ -14,18 +14,17 @@ public class OfertaConfiguration : IEntityTypeConfiguration<Oferta>
 
         builder.HasOne(oferta => oferta.DtOfertante)
                 .WithMany(dt => dt.OfertasRealizadas)
-                .HasForeignKey(oferta => oferta.IdDtOfertante);
+                .HasForeignKey(oferta => oferta.IdDtOfertante)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
         builder.HasOne(oferta => oferta.DtReceptor)
                 .WithMany(dt => dt.OfertasRecibidas)
-                .HasForeignKey(oferta => oferta.IdDtReceptor);
+                .HasForeignKey(oferta => oferta.IdDtReceptor)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
-        builder.HasOne(oferta => oferta.JugadorOfertado)
-                .WithMany(jugador => jugador.OfertasRecibidas)
-                .HasForeignKey(oferta => oferta.IdJugadorOfertado);
-
-        builder.HasMany(oferta => oferta.JugadoresOfrecidos)
-                .WithMany(jugador => jugador.OfertasOfrecido)
-                .UsingEntity(j => j.ToTable("OfertaJugador"));
+        // builder.HasOne(oferta => oferta.JugadorOfertado)
+        //         .WithMany(jugador => jugador.OfertasRecibidas)
+        //         .HasForeignKey(oferta => oferta.IdJugadorOfertado)
+        //         .OnDelete(DeleteBehavior.ClientSetNull);
     }
 }

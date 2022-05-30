@@ -12,12 +12,16 @@ public class PartidoConfiguration : IEntityTypeConfiguration<Partido>
             partido.Id
         });
 
-        builder.HasOne(partido => partido.EquipoLocal)
-                .WithMany(c => c.PartidosJugados)
-                .HasForeignKey(partido => partido.IdEquipoLocal);
+        // builder.HasOne(partido => partido.EquipoLocal)
+        //         .WithMany(equipo => equipo.PartidosJugados)
+        //         .HasForeignKey(partido => partido.IdEquipoLocal);
 
-        builder.HasOne(partido => partido.EquipoVisitante)
-                .WithMany(c => c.PartidosJugados)
-                .HasForeignKey(partido => partido.IdEquipoVisitante);
+        // builder.HasOne(partido => partido.EquipoVisitante)
+        //         .WithMany(equipo => equipo.PartidosJugados)
+        //         .HasForeignKey(partido => partido.IdEquipoVisitante);
+
+        builder.HasOne(partido => partido.Torneo)
+                .WithMany(torneo => torneo.Partidos)
+                .HasForeignKey(partido => partido.IdTorneo);
     }
 }

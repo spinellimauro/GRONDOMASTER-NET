@@ -20,5 +20,15 @@ public class EquipoConfiguration : IEntityTypeConfiguration<Equipo>
         builder.HasMany(equipo => equipo.Jugadores)
                 .WithOne(c => c.Equipo)
                 .HasForeignKey(equipo => equipo.Id);
+
+        builder.HasMany(equipo => equipo.PartidosJugadosLocal)
+                .WithOne(partido => partido.EquipoLocal)
+                .HasForeignKey(equipo => equipo.IdEquipoLocal)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+        builder.HasMany(equipo => equipo.PartidosJugadosVisitante)
+                .WithOne(partido => partido.EquipoVisitante)
+                .HasForeignKey(equipo => equipo.IdEquipoVisitante)
+                .OnDelete(DeleteBehavior.ClientSetNull);
     }
 }

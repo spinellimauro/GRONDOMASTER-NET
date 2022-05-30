@@ -8,6 +8,8 @@ public class Equipo
     public List<Jugador> Jugadores { get; set; }
     public DT DT { get; set; }
     public string UserId { get; set; }
-    public List<Partido> PartidosJugados { get; set; }
+    public List<Partido> PartidosJugadosLocal { get; set; }
+    public List<Partido> PartidosJugadosVisitante { get; set; }
+    public List<TorneoEquipo> TorneosEquipos { get; set; }
 
 }

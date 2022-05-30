@@ -16,5 +16,6 @@ public class DT
     public List<Transferencia> Ventas { get; set; }
     public List<Oferta> OfertasRecibidas { get; set; }
     public List<Oferta> OfertasRealizadas { get; set; }
+    public int IdEquipo { get; set; }
 
 }

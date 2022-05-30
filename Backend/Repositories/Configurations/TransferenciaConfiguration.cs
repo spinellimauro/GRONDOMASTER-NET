@@ -14,11 +14,13 @@ public class TransferenciaConfiguration : IEntityTypeConfiguration<Transferencia
 
         builder.HasOne(trans => trans.DtComprador)
                 .WithMany(c => c.Compras)
-                .HasForeignKey(trans => trans.IdDTComprador);
+                .HasForeignKey(trans => trans.IdDTComprador)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
         builder.HasOne(trans => trans.DtVendedor)
-                .WithMany(c => c.Compras)
-                .HasForeignKey(trans => trans.IdDTVendedor);
+                .WithMany(c => c.Ventas)
+                .HasForeignKey(trans => trans.IdDTVendedor)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
         builder.HasOne(trans => trans.Jugador)
                 .WithMany(c => c.Transferencias)

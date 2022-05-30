@@ -21,8 +21,8 @@ public class DTConfiguration : IEntityTypeConfiguration<DT>
                 .HasColumnType("nvarchar(70)")
                 .IsRequired();
 
-        builder.HasOne(usuario => usuario.Equipo)
-                .WithOne(c => c.DT)
-                .HasForeignKey<Equipo>(equipo => equipo.UserId);
+        builder.HasOne(dt => dt.Equipo)
+                .WithOne(equipo => equipo.DT)
+                .HasForeignKey<DT>(dt => dt.IdEquipo);
     }
 }
