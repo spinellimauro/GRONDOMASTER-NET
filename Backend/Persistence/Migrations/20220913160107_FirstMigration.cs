@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Backend.Migrations
+namespace Backend.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class FirstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,6 +36,7 @@ namespace Backend.Migrations
                     FirstLoginDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LastPasswordChangedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LastLoginTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -57,21 +58,21 @@ namespace Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Equipo",
+                name: "Equipos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(70)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Equipo", x => x.Id);
+                    table.PrimaryKey("PK_Equipos", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "EquipoSofifa",
+                name: "EquiposSofifa",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -81,11 +82,11 @@ namespace Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EquipoSofifa", x => x.Id);
+                    table.PrimaryKey("PK_EquiposSofifa", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Mercado",
+                name: "Mercados",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -93,21 +94,7 @@ namespace Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Mercado", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PrecioEvento",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NombreEvento = table.Column<string>(type: "nvarchar(30)", nullable: false),
-                    Precio = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PrecioEvento", x => x.Id);
+                    table.PrimaryKey("PK_Mercados", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -125,7 +112,21 @@ namespace Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PremioEvento",
+                name: "PreciosEvento",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NombreEvento = table.Column<string>(type: "nvarchar(30)", nullable: false),
+                    Precio = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PreciosEvento", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PremiosEvento",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -135,11 +136,11 @@ namespace Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PremioEvento", x => x.Id);
+                    table.PrimaryKey("PK_PremiosEvento", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Torneo",
+                name: "Torneos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -150,7 +151,7 @@ namespace Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Torneo", x => x.Id);
+                    table.PrimaryKey("PK_Torneos", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -260,7 +261,7 @@ namespace Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Jugador",
+                name: "Jugadores",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -281,17 +282,17 @@ namespace Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Jugador", x => x.Id);
+                    table.PrimaryKey("PK_Jugadores", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Jugador_Equipo_IdEquipo",
+                        name: "FK_Jugadores_Equipos_IdEquipo",
                         column: x => x.IdEquipo,
-                        principalTable: "Equipo",
+                        principalTable: "Equipos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Manager",
+                name: "Managers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -303,27 +304,28 @@ namespace Backend.Migrations
                     Slots = table.Column<int>(type: "int", nullable: false),
                     Enabled = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    IdEquipo = table.Column<int>(type: "int", nullable: false)
+                    IdEquipo = table.Column<int>(type: "int", nullable: false),
+                    FechaActualizacion = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Manager", x => x.Id);
+                    table.PrimaryKey("PK_Managers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Manager_AspNetUsers_UserId",
+                        name: "FK_Managers_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Manager_Equipo_IdEquipo",
+                        name: "FK_Managers_Equipos_IdEquipo",
                         column: x => x.IdEquipo,
-                        principalTable: "Equipo",
+                        principalTable: "Equipos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Partido",
+                name: "Partidos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -336,27 +338,27 @@ namespace Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Partido", x => x.Id);
+                    table.PrimaryKey("PK_Partidos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Partido_Equipo_IdEquipoLocal",
+                        name: "FK_Partidos_Equipos_IdEquipoLocal",
                         column: x => x.IdEquipoLocal,
-                        principalTable: "Equipo",
+                        principalTable: "Equipos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Partido_Equipo_IdEquipoVisitante",
+                        name: "FK_Partidos_Equipos_IdEquipoVisitante",
                         column: x => x.IdEquipoVisitante,
-                        principalTable: "Equipo",
+                        principalTable: "Equipos",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Partido_Torneo_IdTorneo",
+                        name: "FK_Partidos_Torneos_IdTorneo",
                         column: x => x.IdTorneo,
-                        principalTable: "Torneo",
+                        principalTable: "Torneos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TorneoEquipo",
+                name: "TorneosEquipos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -366,23 +368,23 @@ namespace Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TorneoEquipo", x => x.Id);
+                    table.PrimaryKey("PK_TorneosEquipos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TorneoEquipo_Equipo_IdEquipo",
+                        name: "FK_TorneosEquipos_Equipos_IdEquipo",
                         column: x => x.IdEquipo,
-                        principalTable: "Equipo",
+                        principalTable: "Equipos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TorneoEquipo_Torneo_IdTorneo",
+                        name: "FK_TorneosEquipos_Torneos_IdTorneo",
                         column: x => x.IdTorneo,
-                        principalTable: "Torneo",
+                        principalTable: "Torneos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Oferta",
+                name: "Ofertas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -394,27 +396,27 @@ namespace Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Oferta", x => x.Id);
+                    table.PrimaryKey("PK_Ofertas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Oferta_Manager_IdDtOfertante",
+                        name: "FK_Ofertas_Managers_IdDtOfertante",
                         column: x => x.IdDtOfertante,
-                        principalTable: "Manager",
+                        principalTable: "Managers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Oferta_Manager_IdDtReceptor",
+                        name: "FK_Ofertas_Managers_IdDtReceptor",
                         column: x => x.IdDtReceptor,
-                        principalTable: "Manager",
+                        principalTable: "Managers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Oferta_Mercado_IdMercado",
+                        name: "FK_Ofertas_Mercados_IdMercado",
                         column: x => x.IdMercado,
-                        principalTable: "Mercado",
+                        principalTable: "Mercados",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Transferencia",
+                name: "Transferencias",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -427,33 +429,61 @@ namespace Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transferencia", x => x.Id);
+                    table.PrimaryKey("PK_Transferencias", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Transferencia_Jugador_IdJugador",
+                        name: "FK_Transferencias_Jugadores_IdJugador",
                         column: x => x.IdJugador,
-                        principalTable: "Jugador",
+                        principalTable: "Jugadores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Transferencia_Manager_IdDTComprador",
+                        name: "FK_Transferencias_Managers_IdDTComprador",
                         column: x => x.IdDTComprador,
-                        principalTable: "Manager",
+                        principalTable: "Managers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Transferencia_Manager_IdDTVendedor",
+                        name: "FK_Transferencias_Managers_IdDTVendedor",
                         column: x => x.IdDTVendedor,
-                        principalTable: "Manager",
+                        principalTable: "Managers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Transferencia_Mercado_IdMercado",
+                        name: "FK_Transferencias_Mercados_IdMercado",
                         column: x => x.IdMercado,
-                        principalTable: "Mercado",
+                        principalTable: "Mercados",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Suceso",
+                name: "UsuariosRoles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RolId = table.Column<int>(type: "int", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Enabled = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UsuariosRoles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UsuariosRoles_AspNetRoles_RolId",
+                        column: x => x.RolId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UsuariosRoles_Managers_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Managers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sucesos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -466,23 +496,23 @@ namespace Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Suceso", x => x.Id);
+                    table.PrimaryKey("PK_Sucesos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Suceso_Jugador_IdJugador",
+                        name: "FK_Sucesos_Jugadores_IdJugador",
                         column: x => x.IdJugador,
-                        principalTable: "Jugador",
+                        principalTable: "Jugadores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Suceso_Partido_IdPartido",
+                        name: "FK_Sucesos_Partidos_IdPartido",
                         column: x => x.IdPartido,
-                        principalTable: "Partido",
+                        principalTable: "Partidos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OfertaJugador",
+                name: "OfertasJugador",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -492,17 +522,17 @@ namespace Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OfertaJugador", x => x.Id);
+                    table.PrimaryKey("PK_OfertasJugador", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OfertaJugador_Jugador_IdJugador",
+                        name: "FK_OfertasJugador_Jugadores_IdJugador",
                         column: x => x.IdJugador,
-                        principalTable: "Jugador",
+                        principalTable: "Jugadores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OfertaJugador_Oferta_IdOferta",
+                        name: "FK_OfertasJugador_Ofertas_IdOferta",
                         column: x => x.IdOferta,
-                        principalTable: "Oferta",
+                        principalTable: "Ofertas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -547,101 +577,111 @@ namespace Backend.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Jugador_IdEquipo",
-                table: "Jugador",
+                name: "IX_Jugadores_IdEquipo",
+                table: "Jugadores",
                 column: "IdEquipo");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Manager_IdEquipo",
-                table: "Manager",
+                name: "IX_Managers_IdEquipo",
+                table: "Managers",
                 column: "IdEquipo",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Manager_UserId",
-                table: "Manager",
+                name: "IX_Managers_UserId",
+                table: "Managers",
                 column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Oferta_IdDtOfertante",
-                table: "Oferta",
+                name: "IX_Ofertas_IdDtOfertante",
+                table: "Ofertas",
                 column: "IdDtOfertante");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Oferta_IdDtReceptor",
-                table: "Oferta",
+                name: "IX_Ofertas_IdDtReceptor",
+                table: "Ofertas",
                 column: "IdDtReceptor");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Oferta_IdMercado",
-                table: "Oferta",
+                name: "IX_Ofertas_IdMercado",
+                table: "Ofertas",
                 column: "IdMercado");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OfertaJugador_IdJugador",
-                table: "OfertaJugador",
+                name: "IX_OfertasJugador_IdJugador",
+                table: "OfertasJugador",
                 column: "IdJugador");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OfertaJugador_IdOferta",
-                table: "OfertaJugador",
+                name: "IX_OfertasJugador_IdOferta",
+                table: "OfertasJugador",
                 column: "IdOferta");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Partido_IdEquipoLocal",
-                table: "Partido",
+                name: "IX_Partidos_IdEquipoLocal",
+                table: "Partidos",
                 column: "IdEquipoLocal");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Partido_IdEquipoVisitante",
-                table: "Partido",
+                name: "IX_Partidos_IdEquipoVisitante",
+                table: "Partidos",
                 column: "IdEquipoVisitante");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Partido_IdTorneo",
-                table: "Partido",
+                name: "IX_Partidos_IdTorneo",
+                table: "Partidos",
                 column: "IdTorneo");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Suceso_IdJugador",
-                table: "Suceso",
+                name: "IX_Sucesos_IdJugador",
+                table: "Sucesos",
                 column: "IdJugador");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Suceso_IdPartido",
-                table: "Suceso",
+                name: "IX_Sucesos_IdPartido",
+                table: "Sucesos",
                 column: "IdPartido");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TorneoEquipo_IdEquipo",
-                table: "TorneoEquipo",
+                name: "IX_TorneosEquipos_IdEquipo",
+                table: "TorneosEquipos",
                 column: "IdEquipo");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TorneoEquipo_IdTorneo",
-                table: "TorneoEquipo",
+                name: "IX_TorneosEquipos_IdTorneo",
+                table: "TorneosEquipos",
                 column: "IdTorneo");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transferencia_IdDTComprador",
-                table: "Transferencia",
+                name: "IX_Transferencias_IdDTComprador",
+                table: "Transferencias",
                 column: "IdDTComprador");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transferencia_IdDTVendedor",
-                table: "Transferencia",
+                name: "IX_Transferencias_IdDTVendedor",
+                table: "Transferencias",
                 column: "IdDTVendedor");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transferencia_IdJugador",
-                table: "Transferencia",
+                name: "IX_Transferencias_IdJugador",
+                table: "Transferencias",
                 column: "IdJugador");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transferencia_IdMercado",
-                table: "Transferencia",
+                name: "IX_Transferencias_IdMercado",
+                table: "Transferencias",
                 column: "IdMercado");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsuariosRoles_RolId",
+                table: "UsuariosRoles",
+                column: "RolId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsuariosRoles_UsuarioId",
+                table: "UsuariosRoles",
+                column: "UsuarioId");
         }
 
         /// <inheritdoc />
@@ -663,55 +703,58 @@ namespace Backend.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "EquipoSofifa");
+                name: "EquiposSofifa");
 
             migrationBuilder.DropTable(
-                name: "OfertaJugador");
-
-            migrationBuilder.DropTable(
-                name: "PrecioEvento");
+                name: "OfertasJugador");
 
             migrationBuilder.DropTable(
                 name: "Precios");
 
             migrationBuilder.DropTable(
-                name: "PremioEvento");
+                name: "PreciosEvento");
 
             migrationBuilder.DropTable(
-                name: "Suceso");
+                name: "PremiosEvento");
 
             migrationBuilder.DropTable(
-                name: "TorneoEquipo");
+                name: "Sucesos");
 
             migrationBuilder.DropTable(
-                name: "Transferencia");
+                name: "TorneosEquipos");
+
+            migrationBuilder.DropTable(
+                name: "Transferencias");
+
+            migrationBuilder.DropTable(
+                name: "UsuariosRoles");
+
+            migrationBuilder.DropTable(
+                name: "Ofertas");
+
+            migrationBuilder.DropTable(
+                name: "Partidos");
+
+            migrationBuilder.DropTable(
+                name: "Jugadores");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Oferta");
+                name: "Managers");
 
             migrationBuilder.DropTable(
-                name: "Partido");
+                name: "Mercados");
 
             migrationBuilder.DropTable(
-                name: "Jugador");
-
-            migrationBuilder.DropTable(
-                name: "Manager");
-
-            migrationBuilder.DropTable(
-                name: "Mercado");
-
-            migrationBuilder.DropTable(
-                name: "Torneo");
+                name: "Torneos");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Equipo");
+                name: "Equipos");
         }
     }
 }

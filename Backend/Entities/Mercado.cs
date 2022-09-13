@@ -7,4 +7,10 @@ public class Mercado
     public List<Oferta> listaOfertas { get; set; }
     public List<Transferencia> listaTransferencias { get; set; }
 
+    public Mercado()
+    {
+        listaOfertas = new List<Oferta>();
+        listaTransferencias = new List<Transferencia>();
+    }
+
 }

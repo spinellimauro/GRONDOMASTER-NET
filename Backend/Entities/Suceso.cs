@@ -12,4 +12,10 @@ public class Suceso
     public int IdJugador { get; set; }
     public int IdPartido { get; set; }
 
+    public Suceso()
+    {
+        Jugador = new Jugador();
+        Partido = new Partido();
+    }
+
 }

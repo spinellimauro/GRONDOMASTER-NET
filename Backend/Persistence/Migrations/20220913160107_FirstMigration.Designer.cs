@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Backend.Migrations
+namespace Backend.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220530215637_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220913160107_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,6 +68,9 @@ namespace Backend.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreationTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -152,6 +155,9 @@ namespace Backend.Migrations
                     b.Property<bool>("Enabled")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("FechaActualizacion")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("IdEquipo")
                         .HasColumnType("int");
 
@@ -176,7 +182,7 @@ namespace Backend.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Manager");
+                    b.ToTable("Managers");
                 });
 
             modelBuilder.Entity("Equipo", b =>
@@ -191,13 +197,12 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(70)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Equipo");
+                    b.ToTable("Equipos");
                 });
 
             modelBuilder.Entity("EquipoSofifa", b =>
@@ -217,7 +222,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EquipoSofifa");
+                    b.ToTable("EquiposSofifa");
                 });
 
             modelBuilder.Entity("Jugador", b =>
@@ -275,7 +280,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("IdEquipo");
 
-                    b.ToTable("Jugador");
+                    b.ToTable("Jugadores");
                 });
 
             modelBuilder.Entity("Mercado", b =>
@@ -288,7 +293,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Mercado");
+                    b.ToTable("Mercados");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -422,7 +427,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("IdMercado");
 
-                    b.ToTable("Oferta");
+                    b.ToTable("Ofertas");
                 });
 
             modelBuilder.Entity("OfertaJugador", b =>
@@ -445,7 +450,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("IdOferta");
 
-                    b.ToTable("OfertaJugador");
+                    b.ToTable("OfertasJugador");
                 });
 
             modelBuilder.Entity("Partido", b =>
@@ -479,7 +484,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("IdTorneo");
 
-                    b.ToTable("Partido");
+                    b.ToTable("Partidos");
                 });
 
             modelBuilder.Entity("PrecioEvento", b =>
@@ -499,7 +504,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PrecioEvento");
+                    b.ToTable("PreciosEvento");
                 });
 
             modelBuilder.Entity("Precios", b =>
@@ -538,7 +543,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PremioEvento");
+                    b.ToTable("PremiosEvento");
                 });
 
             modelBuilder.Entity("Suceso", b =>
@@ -570,7 +575,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("IdPartido");
 
-                    b.ToTable("Suceso");
+                    b.ToTable("Sucesos");
                 });
 
             modelBuilder.Entity("Torneo", b =>
@@ -593,7 +598,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Torneo");
+                    b.ToTable("Torneos");
                 });
 
             modelBuilder.Entity("TorneoEquipo", b =>
@@ -616,7 +621,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("IdTorneo");
 
-                    b.ToTable("TorneoEquipo");
+                    b.ToTable("TorneosEquipos");
                 });
 
             modelBuilder.Entity("Transferencia", b =>
@@ -652,7 +657,36 @@ namespace Backend.Migrations
 
                     b.HasIndex("IdMercado");
 
-                    b.ToTable("Transferencia");
+                    b.ToTable("Transferencias");
+                });
+
+            modelBuilder.Entity("UsuarioRol", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RolId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RolId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("UsuariosRoles");
                 });
 
             modelBuilder.Entity("DT", b =>
@@ -876,6 +910,25 @@ namespace Backend.Migrations
                     b.Navigation("Mercado");
                 });
 
+            modelBuilder.Entity("UsuarioRol", b =>
+                {
+                    b.HasOne("ApplicationRole", "Rol")
+                        .WithMany()
+                        .HasForeignKey("RolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DT", "Usuario")
+                        .WithMany("UsuariosRoles")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rol");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("ApplicationUser", b =>
                 {
                     b.Navigation("Usuario")
@@ -890,13 +943,14 @@ namespace Backend.Migrations
 
                     b.Navigation("OfertasRecibidas");
 
+                    b.Navigation("UsuariosRoles");
+
                     b.Navigation("Ventas");
                 });
 
             modelBuilder.Entity("Equipo", b =>
                 {
-                    b.Navigation("DT")
-                        .IsRequired();
+                    b.Navigation("DT");
 
                     b.Navigation("Jugadores");
 

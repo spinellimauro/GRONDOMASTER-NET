@@ -6,5 +6,6 @@ public class ApplicationUser : IdentityUser<int>
     public DateTime? FirstLoginDate { get; set; }
     public DateTime? LastPasswordChangedDate { get; set; }
     public DateTime? LastLoginTime { get; set; }
+    public DateTime? CreationTime { get; set; }
     public DT Usuario { get; set; }
 }

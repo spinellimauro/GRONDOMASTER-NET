@@ -13,4 +13,11 @@ public class Oferta
     public int IdMercado { get; set; }
     public List<OfertaJugador> OfertasJugador { get; set; }
 
+    public Oferta() {
+        DtOfertante = new DT();
+        DtReceptor = new DT();
+        Mercado = new Mercado();
+        OfertasJugador = new List<OfertaJugador>();
+    }
+
 }

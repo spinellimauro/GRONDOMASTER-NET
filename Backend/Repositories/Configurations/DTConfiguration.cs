@@ -13,11 +13,11 @@ public class DTConfiguration : IEntityTypeConfiguration<DT>
         });
 
         builder
-                .Property(contact => contact.Nombre)
+                .Property(dt => dt.Nombre)
                 .HasColumnType("nvarchar(70)")
                 .IsRequired();
 
-        builder.Property(contact => contact.Apellido)
+        builder.Property(dt => dt.Apellido)
                 .HasColumnType("nvarchar(70)")
                 .IsRequired();
 

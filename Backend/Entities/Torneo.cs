@@ -10,4 +10,10 @@ public class Torneo
     public int LimiteAmarillas { get; set; }
     public Boolean Finalizado { get; set; }
 
+    public Torneo()
+    {
+        TorneosEquipos = new List<TorneoEquipo>();
+        Partidos = new List<Partido>();
+    }
+
 }

@@ -9,4 +9,9 @@ public class OfertaJugador
     public int IdOferta { get; set; }
     public int IdJugador { get; set; }
 
+    public OfertaJugador() {
+        Oferta = new Oferta();
+        Jugador = new Jugador();
+    }
+
 }

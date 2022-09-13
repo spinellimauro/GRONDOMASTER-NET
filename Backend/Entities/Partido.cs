@@ -14,4 +14,12 @@ public class Partido
     public int IdEquipoVisitante { get; set; }
     public int IdTorneo { get; set; }
 
+    public Partido()
+    {
+        EquipoLocal = new Equipo();
+        EquipoVisitante = new Equipo();
+        Torneo = new Torneo();
+        Sucesos = new List<Suceso>();
+    }
+
 }

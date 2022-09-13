@@ -11,6 +11,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc;
 
 
 public class Startup
@@ -35,11 +37,6 @@ public class Startup
         // }
         );
 
-        services
-        // .AddTransient<IContactRepository, ContactRepository>()
-        .AddTransient<IUnitOfWork, UnitOfWork>()
-        .AddTransient<IHelpers, Helpers>();
-
         services.AddIdentity<ApplicationUser, ApplicationRole>(config =>
             {
                 config.User.RequireUniqueEmail = true;
@@ -52,12 +49,22 @@ public class Startup
                 config.Lockout.MaxFailedAccessAttempts = 5;
                 // config.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(Convert.ToDouble(sesionCaducada));
             })
-                    .AddDefaultTokenProviders()
-                    .AddEntityFrameworkStores<ApplicationDbContext>();
+                    // .AddRoles<ApplicationRole>()
+                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddDefaultTokenProviders();
+
+        services
+       // .AddTransient<IContactRepository, ContactRepository>()
+       .AddTransient<IUnitOfWork, UnitOfWork>()
+       .AddTransient<IAuthRepository, AuthRepository>()
+       .AddTransient<IEquipoRepository, EquipoRepository>()
+       // .AddTransient<DbSeeder>()
+       .AddTransient<IHelpers, Helpers>();
 
         services
         .Configure<Settings>(Configuration.GetSection("Settings"))
-        .Configure<Messages>(Configuration.GetSection("Messages"));
+        .Configure<Messages>(Configuration.GetSection("Messages"))
+        .Configure<UsuarioSettings>(Configuration.GetSection("Usuario"));
 
         services
             .AddHttpContextAccessor()
@@ -111,10 +118,18 @@ public class Startup
         mc.AddProfile(new ViewModelToDomainMappingProfile());
     });
 
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+        });
+
+
         IMapper mapper = mappingConfig.CreateMapper();
         services.AddSingleton(mapper);
 
         services.AddControllers();
+
+        services.AddMvc();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -131,6 +146,13 @@ public class Startup
 
         app.UseAuthentication();
         app.UseAuthorization();
+
+        app.UseSwagger();
+
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        });
 
         app.UseEndpoints(endpoints =>
         {

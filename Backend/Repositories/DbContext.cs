@@ -43,20 +43,21 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
 
     }
 
-    public DbSet<DT> Manager { get; set; }
-    public DbSet<Equipo> Equipo { get; set; }
-    public DbSet<EquipoSofifa> EquipoSofifa { get; set; }
-    public DbSet<Jugador> Jugador { get; set; }
-    public DbSet<Mercado> Mercado { get; set; }
-    public DbSet<Oferta> Oferta { get; set; }
-    public DbSet<Partido> Partido { get; set; }
-    public DbSet<PrecioEvento> PrecioEvento { get; set; }
+    public DbSet<DT> Managers { get; set; }
+    public DbSet<Equipo> Equipos { get; set; }
+    public DbSet<EquipoSofifa> EquiposSofifa { get; set; }
+    public DbSet<Jugador> Jugadores { get; set; }
+    public DbSet<Mercado> Mercados { get; set; }
+    public DbSet<Oferta> Ofertas { get; set; }
+    public DbSet<Partido> Partidos { get; set; }
+    public DbSet<PrecioEvento> PreciosEvento { get; set; }
     public DbSet<Precios> Precios { get; set; }
-    public DbSet<PremioEvento> PremioEvento { get; set; }
-    public DbSet<Suceso> Suceso { get; set; }
-    public DbSet<Torneo> Torneo { get; set; }
-    public DbSet<Transferencia> Transferencia { get; set; }
-    public DbSet<OfertaJugador> OfertaJugador { get; set; }
-    public DbSet<TorneoEquipo> TorneoEquipo { get; set; }
+    public DbSet<PremioEvento> PremiosEvento { get; set; }
+    public DbSet<Suceso> Sucesos { get; set; }
+    public DbSet<Torneo> Torneos { get; set; }
+    public DbSet<Transferencia> Transferencias { get; set; }
+    public DbSet<OfertaJugador> OfertasJugador { get; set; }
+    public DbSet<TorneoEquipo> TorneosEquipos { get; set; }
     public DbSet<ApplicationUser> Users { get; set; }
+    public DbSet<UsuarioRol> UsuariosRoles { get; set; }
 }

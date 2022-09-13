@@ -17,8 +17,12 @@ public class EquipoConfiguration : IEntityTypeConfiguration<Equipo>
                 .HasColumnType("nvarchar(70)")
                 .IsRequired();
 
+        builder
+                .Property(equipo => equipo.ManagerId)
+                .HasColumnType("int");
+
         builder.HasMany(equipo => equipo.Jugadores)
-                .WithOne(c => c.Equipo)
+                .WithOne(jugador => jugador.Equipo)
                 .HasForeignKey(equipo => equipo.Id);
 
         builder.HasMany(equipo => equipo.PartidosJugadosLocal)

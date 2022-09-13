@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class DT
 {
+
     public int Id { get; set; }
     public string Nombre { get; set; }
     public string Apellido { get; set; }
@@ -16,7 +17,19 @@ public class DT
     public List<Oferta> OfertasRecibidas { get; set; }
     public List<Oferta> OfertasRealizadas { get; set; }
     public ApplicationUser User { get; set; }
+    public List<UsuarioRol> UsuariosRoles { get; set; }
     public int UserId { get; set; }
     public int IdEquipo { get; set; }
+    public DateTime FechaActualizacion { get; set; }
+
+    public DT() {
+        Compras = new List<Transferencia>();
+        Ventas = new List<Transferencia>();
+        User = new ApplicationUser();
+        Equipo = new Equipo();
+        OfertasRecibidas = new List<Oferta>();
+        OfertasRealizadas = new List<Oferta>();
+        UsuariosRoles = new List<UsuarioRol>();
+    }
 
 }

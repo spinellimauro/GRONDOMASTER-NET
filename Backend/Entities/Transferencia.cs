@@ -14,4 +14,12 @@ public class Transferencia
     public Mercado Mercado { get; set; }
     public int IdMercado { get; set; }
 
+    public Transferencia()
+    {
+        DtComprador = new DT();
+        DtVendedor = new DT();
+        Jugador = new Jugador();
+        Mercado = new Mercado();
+    }
+
 }

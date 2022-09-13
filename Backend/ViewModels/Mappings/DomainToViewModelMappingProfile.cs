@@ -5,9 +5,9 @@ public class DomainToViewModelMappingProfile : Profile
     public DomainToViewModelMappingProfile()
     {
 
-        CreateMap<User, UserViewModel>();
-        CreateMap<User, RegisterViewModel>();
-        CreateMap<User, SaveUserViewModel>();
+        CreateMap<ApplicationUser, UserViewModel>();
+        CreateMap<ApplicationUser, RegisterViewModel>();
+        CreateMap<ApplicationUser, SaveUserViewModel>();
         CreateMap<DT, SaveUserViewModel>();
     }
 

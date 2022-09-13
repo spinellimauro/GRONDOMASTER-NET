@@ -9,4 +9,10 @@ public class TorneoEquipo
     public int IdTorneo { get; set; }
     public int IdEquipo { get; set; }
 
+    public TorneoEquipo()
+    {
+        Torneo = new Torneo();
+        Equipo = new Equipo();
+    }
+
 }
