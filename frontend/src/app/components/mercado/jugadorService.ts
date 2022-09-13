@@ -8,7 +8,7 @@ export class JugadorService {
 
   getJugadoresBySearch(query: string) {
     return this.http.get(
-      this.configService.JugadorURI + 'get-jugadores-by-search/' + query
+      this.configService.JugadorURI + 'get-jugadores-by-search?query=' + query
     );
   }
 }

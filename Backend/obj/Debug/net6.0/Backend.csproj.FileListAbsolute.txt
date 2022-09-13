@@ -162,3 +162,4 @@ C:\Users\gabri\Documents\Repos\GRONDOMASTER-NET\Backend\obj\Debug\net6.0\Backend
 C:\Users\gabri\Documents\Repos\GRONDOMASTER-NET\Backend\obj\Debug\net6.0\ref\Backend.dll
 C:\Users\gabri\Documents\Repos\GRONDOMASTER-NET\Backend\bin\Debug\net6.0\Mono.TextTemplating.dll
 C:\Users\gabri\Documents\Repos\GRONDOMASTER-NET\Backend\bin\Debug\net6.0\System.CodeDom.dll
+C:\Users\gabri\Documents\Repos\GRONDOMASTER-NET\Backend\bin\Debug\net6.0\HtmlAgilityPack.dll

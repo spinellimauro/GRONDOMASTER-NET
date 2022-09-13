@@ -54,8 +54,8 @@ namespace Gaby.Controllers
             // dbSeeder = _dbSeeder;
         }
 
-        [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] UserViewModel model)
+        [HttpPost("SignIn")]
+        public async Task<IActionResult> SignIn([FromBody] UserViewModel model)
         {
             var Now = helper.GetCurrentDateTime();
 
@@ -95,7 +95,7 @@ namespace Gaby.Controllers
 
             if (user.LastPasswordChangedDate.HasValue)
             {
-                var Caducidad = settings.DiasCaducidadPassword;
+                var Caducidad = Convert.ToInt32(Configuration["Jwt:Days"]);
                 var PasswordChangeDate = user.LastPasswordChangedDate.Value.AddDays(Caducidad);
 
                 ExpiredPassword = PasswordChangeDate < Now;
@@ -163,7 +163,7 @@ namespace Gaby.Controllers
             return Ok(mapper.Map<DT, SaveUserViewModel>(usuario));
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = Roles.USUARIO)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = Roles.USER)]
         [HttpPost("MUsuario")]
         public async Task<IActionResult> MUsuario(string email, [FromBody] SaveUserViewModel model)
         {
@@ -192,7 +192,7 @@ namespace Gaby.Controllers
             return Ok(mapper.Map<DT, SaveUserViewModel>(usuarioFront));
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = Roles.USER)]
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel model)
         {

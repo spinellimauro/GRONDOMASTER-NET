@@ -5,5 +5,6 @@ export interface ILogged {
   ExpiredPassword: boolean;
   RazonSocial: string;
 
-  Rol: any[];
+  // Rol: any[];
+  Rol: string;
 }

@@ -7,11 +7,12 @@ import { getToken } from './logged.service';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req = req.clone({setParams: {'Authorization': getToken()},
+    var tken = getToken();
+    req = req.clone({setParams: {'Authorization': tken},
       setHeaders: {
         'Content-Type' : 'application/json; charset=utf-8',
         'Accept'       : 'application/json',
-        'Authorization': `Bearer ${getToken()}`,
+        'Authorization': `Bearer ${tken}`,
       },
     });
 

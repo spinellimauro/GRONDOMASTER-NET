@@ -1,6 +1,6 @@
 {
   "URI": {
-    "Server": "http://localhost:8080/",
+    "Server": "http://localhost:5072/",
     "Api": "api/",
     "Auth": "auth",
     "Usuario": "user",

@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     private configService: ConfigService
   ) {
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       password: [
         '',
         [
@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit {
   }
 
   get usuarioRed() {
-    return this.loginForm.get('username');
+    return this.loginForm.get('email');
   }
 
   get password() {
@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.usuarioService.login(this.loginForm.value).subscribe((data: any) => {
-      const token = data.accessToken;
+      const token = data.token;
       this.logged.setToken(token);
       this.logged.setLogged();
 

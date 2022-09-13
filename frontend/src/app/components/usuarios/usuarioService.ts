@@ -49,7 +49,7 @@ export class UsuariosService {
 
   changePassword(model: IChangePassword) {
     return this.http.post(
-      this.configService.UsuarioURI + 'changePassword',
+      this.configService.AuthURI + 'changePassword',
       model
     );
   }

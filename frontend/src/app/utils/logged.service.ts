@@ -28,15 +28,15 @@ export class LoggedService {
   }
 
   checkType() {
-    this._logged.Rol.forEach((rol) => {
-      this.setRol(rol.authority);
-    });
+    // this._logged.Rol.forEach((rol) => {
+      this.setRol(this._logged.Rol);
+    // });
   }
 
   setRol(rol: string) {
     console.log(rol);
-    if (rol == "ROLE_ADMIN") this._roles.push(new RolAdmin());
-    if (rol == "ROLE_USER") this._roles.push(new RolUser());
+    if (rol == "ADMIN") this._roles.push(new RolAdmin());
+    if (rol == "USER") this._roles.push(new RolUser());
   }
 
   isInRole(rol: string) {

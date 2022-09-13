@@ -9,6 +9,7 @@
       "Backend/1.0.0": {
         "dependencies": {
           "AutoMapper": "11.0.1",
+          "HtmlAgilityPack": "1.11.45",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.5",
           "Microsoft.AspNetCore.Identity": "2.2.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.5",
@@ -64,6 +65,14 @@
           "lib/netstandard2.0/Azure.Identity.dll": {
             "assemblyVersion": "1.5.0.0",
             "fileVersion": "1.500.21.51401"
+          }
+        }
+      },
+      "HtmlAgilityPack/1.11.45": {
+        "runtime": {
+          "lib/netstandard2.0/HtmlAgilityPack.dll": {
+            "assemblyVersion": "1.11.45.0",
+            "fileVersion": "1.11.45.0"
           }
         }
       },
@@ -931,6 +940,13 @@
       "sha512": "sha512-VfF88dqrgKXZNOS/y4XrX/jmIfP3pkY+hBUzBNpoKml1nR+QshX6XlXWyToLtWV80TDQ1CmUVCJksktDg5+j1w==",
       "path": "azure.identity/1.5.0",
       "hashPath": "azure.identity.1.5.0.nupkg.sha512"
+    },
+    "HtmlAgilityPack/1.11.45": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-adcQUl0CTUJuOVb365DEVxAs7z36AjUU/3JCq65DuYRFJ/+Fsd99MxpkiE9xwelYAcsD0cFlOKI2FXhxSoA3iw==",
+      "path": "htmlagilitypack/1.11.45",
+      "hashPath": "htmlagilitypack.1.11.45.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",

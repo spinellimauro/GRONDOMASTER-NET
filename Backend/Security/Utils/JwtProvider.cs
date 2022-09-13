@@ -29,8 +29,8 @@ public static class JwtProvider
 
         var token = new JwtSecurityToken(
             claims: claims,
-            // issuer: Issuer,
-            // audience: Audience,
+            issuer: Issuer,
+            audience: Audience,
             notBefore: Now,
             expires: Now.Add(TimeSpan.FromMinutes(Time)),
             signingCredentials: SigningCredentials);

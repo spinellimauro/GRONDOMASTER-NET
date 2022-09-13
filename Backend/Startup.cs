@@ -58,6 +58,7 @@ public class Startup
        .AddTransient<IUnitOfWork, UnitOfWork>()
        .AddTransient<IAuthRepository, AuthRepository>()
        .AddTransient<IEquipoRepository, EquipoRepository>()
+       .AddTransient<ISoFifaRepository, SoFifaRepository>()
        // .AddTransient<DbSeeder>()
        .AddTransient<IHelpers, Helpers>();
 
@@ -76,17 +77,17 @@ public class Startup
                     options.AddPolicy(Roles.ADM, policy =>
                         policy.RequireClaim(claiName, Roles.ADM));
 
-                    options.AddPolicy(Roles.USUARIO, policy =>
-                        policy.RequireClaim(claiName, Roles.USUARIO));
+                    options.AddPolicy(Roles.USER, policy =>
+                        policy.RequireClaim(claiName, Roles.USER));
 
                 })
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            // .AddAuthentication(options =>
-            // {
-            //     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            //     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            // })
+            // .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters

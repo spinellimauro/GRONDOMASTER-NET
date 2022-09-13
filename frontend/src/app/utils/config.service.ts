@@ -70,7 +70,7 @@ export class ConfigService {
   }
 
   private URI(controllerName: string): string {
-    return this._uri.Server + this._uri.Api + controllerName + '/';
+    return this._uri.Server + controllerName + '/';
   }
 }
 

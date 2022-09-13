@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "ReHpmhXDLSyEpa622ltQKH6RY/Cm95JZCqyGQgoa6v1chIuwuPLcq/cQkjxs8bqpb6RkGaHNZWmFrH++LHldXQ==",
+  "dgSpecHash": "ivLBs2AofWxLsD8g/yUFg1GZaJurVfML4ELp7MH7WZCQvIxFrJu1+rNMgQZCJcwGCF7bup1Sbhs6SuPUIZSMvw==",
   "success": true,
   "projectFilePath": "C:\\Users\\gabri\\Documents\\Repos\\GRONDOMASTER-NET\\Backend\\Backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gabri\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\azure.core\\1.20.0\\azure.core.1.20.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\azure.identity\\1.5.0\\azure.identity.1.5.0.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\htmlagilitypack\\1.11.45\\htmlagilitypack.1.11.45.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",

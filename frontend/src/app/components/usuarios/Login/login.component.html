@@ -9,8 +9,8 @@
               <mat-placeholder>
                 <mat-icon>mail</mat-icon> Email
               </mat-placeholder>
-              <input matInput name="LoginUserName" formControlName="username">
-              <mat-error *ngIf="loginForm.get('username').hasError('required')">
+              <input matInput name="LoginUserName" formControlName="email">
+              <mat-error *ngIf="loginForm.get('email').hasError('required')">
                 {{ Validaciones.Login.Usuario }}
               </mat-error>
             </mat-form-field>
