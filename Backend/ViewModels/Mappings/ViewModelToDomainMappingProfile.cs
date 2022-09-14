@@ -8,5 +8,6 @@ public class ViewModelToDomainMappingProfile : Profile
         CreateMap<RegisterViewModel, ApplicationUser>();
         CreateMap<SaveUserViewModel, ApplicationUser>();
         CreateMap<SaveUserViewModel, DT>();
+        CreateMap<JugadoresSoFifaViewModel, Jugador>();
     }
 }
