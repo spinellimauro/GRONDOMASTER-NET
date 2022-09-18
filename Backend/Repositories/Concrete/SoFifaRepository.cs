@@ -8,10 +8,11 @@ using System.Xml.Linq;
 #pragma warning disable 1591
 public class SoFifaRepository : ISoFifaRepository
 {
+    private readonly ApplicationDbContext db;
 
-    public SoFifaRepository()
+    public SoFifaRepository(ApplicationDbContext _db)
     {
-
+        db = _db;
     }
 
     public async Task<List<Jugador>> GetJugadoresBySearch(string query)
@@ -47,11 +48,66 @@ public class SoFifaRepository : ISoFifaRepository
             jugador.Potencial = Convert.ToInt32(row.SelectNodes("//td[@class='col col-pt']")[i].InnerText);
 
             jugadores.Add(jugador);
-            
+
             i++;
             posicionesString = "";
         }
 
         return jugadores;
+    }
+
+    public async Task<List<EquipoSofifa>> GetEquipos(int offset)
+    {
+        List<EquipoSofifa> equipos = new List<EquipoSofifa>();
+
+        HtmlWeb web = new HtmlWeb();
+
+        HtmlDocument? doc = web.Load("http://sofifa.com/teams?type=club&offset=" + offset);
+
+        var rows = doc.DocumentNode.SelectNodes(".//tbody//tr//td").Elements().ToList();
+        rows = rows.Where(row => row.Name == "a").ToList();
+        List<HtmlNode> teams = new List<HtmlNode>();
+
+        rows.Select((item, index) => (item, index)).ToList().ForEach(element =>
+            {
+
+                if (element.index % 2 == 0)
+                {
+                    EquipoSofifa equipo = new EquipoSofifa();
+                    equipo.IdSoFifa = Convert.ToInt32(element.item.OuterHtml.Split("/")[2]);
+                    equipo.Nombre = element.item.InnerText;
+                    equipo.UrlImage = "https://cdn.sofifa.net/teams/" + equipo.IdSoFifa + "/60.png";
+                    equipos.Add(equipo);
+                }
+
+            });
+
+        return equipos;
+    }
+
+    public async Task<List<EquipoSofifa>> SetEquiposSoFifa()
+    {
+        List<int> offsets = new List<int>() { 1, 60, 120, 180, 240, 300, 360, 420, 480, 540, 600 };
+        List<EquipoSofifa> equipos = new List<EquipoSofifa>();
+
+        offsets.ForEach(async offset => {
+            List<EquipoSofifa> equiposObtenidos = await GetEquipos(offset);
+            equipos.AddRange(equiposObtenidos);
+        });
+
+        await db.EquiposSofifa.AddRangeAsync(equipos);
+        await db.SaveChangesAsync();
+
+        return equipos;
+    }
+
+    public async Task<List<EquipoSofifa>> GetEquiposSoFifa()
+    {
+        return db.EquiposSofifa.ToList();
+    }
+
+    public async Task<EquipoSofifa> GetEquipoSoFifaById(int id)
+    {
+        return db.EquiposSofifa.Where(equipo => equipo.Id == id).FirstOrDefault();
     }
 }

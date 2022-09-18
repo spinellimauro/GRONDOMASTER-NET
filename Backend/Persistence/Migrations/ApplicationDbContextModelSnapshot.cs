@@ -190,14 +190,21 @@ namespace Backend.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("EquipoSoFifaId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ManagerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(70)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("EquipoSoFifaId")
+                        .IsUnique();
 
                     b.ToTable("Equipos");
                 });
@@ -216,6 +223,10 @@ namespace Backend.Persistence.Migrations
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(70)");
+
+                    b.Property<string>("UrlImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(60)");
 
                     b.HasKey("Id");
 
@@ -705,6 +716,17 @@ namespace Backend.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Equipo", b =>
+                {
+                    b.HasOne("EquipoSofifa", "EquipoSofifa")
+                        .WithOne("Equipo")
+                        .HasForeignKey("Equipo", "EquipoSoFifaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EquipoSofifa");
+                });
+
             modelBuilder.Entity("Jugador", b =>
                 {
                     b.HasOne("Equipo", "Equipo")
@@ -956,6 +978,12 @@ namespace Backend.Persistence.Migrations
                     b.Navigation("PartidosJugadosVisitante");
 
                     b.Navigation("TorneosEquipos");
+                });
+
+            modelBuilder.Entity("EquipoSofifa", b =>
+                {
+                    b.Navigation("Equipo")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Jugador", b =>

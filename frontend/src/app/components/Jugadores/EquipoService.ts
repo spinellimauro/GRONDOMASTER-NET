@@ -8,7 +8,7 @@ export class EquipoService {
 
   getEquiposSofifa() {
     return this.http.get(
-      this.configService.SofifaURI + 'get-sofifa-teams/'
+      this.configService.JugadorURI + 'get-sofifa-teams/'
     );
   }
 }

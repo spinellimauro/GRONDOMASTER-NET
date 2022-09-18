@@ -25,6 +25,10 @@ public class EquipoConfiguration : IEntityTypeConfiguration<Equipo>
                 .WithOne(jugador => jugador.Equipo)
                 .HasForeignKey(equipo => equipo.Id);
 
+        builder.HasOne(equipo => equipo.EquipoSofifa)
+                .WithOne(equipoSofifa => equipoSofifa.Equipo)
+                .HasForeignKey<Equipo>(equipo => equipo.EquipoSoFifaId);
+
         builder.HasMany(equipo => equipo.PartidosJugadosLocal)
                 .WithOne(partido => partido.EquipoLocal)
                 .HasForeignKey(equipo => equipo.IdEquipoLocal)

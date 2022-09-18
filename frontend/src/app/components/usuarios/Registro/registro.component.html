@@ -26,9 +26,9 @@
           </mat-form-field>
 
           <mat-form-field class="marginsField">
-            <input matInput placeholder="Email" formControlName="username">
+            <input matInput placeholder="Email" formControlName="email">
             <mat-error
-              *ngIf="(usuario.get('username').hasError('required') || usuario.get('username').hasError('email')) && (usuario.get('username').touched )">
+              *ngIf="(usuario.get('email').hasError('required') || usuario.get('email').hasError('email')) && (usuario.get('email').touched )">
               {{Validaciones.Users.Email}}
             </mat-error>
           </mat-form-field>
@@ -53,7 +53,8 @@
 
           <div class="marginsField">
             <p-dropdown [options]="teams" formControlName="equipo" placeholder="Selecciona un equipo"
-              optionLabel="nombre" [filter]="true" filterBy="nombre" [showClear]="true"></p-dropdown>
+              optionLabel="nombre" [filter]="true" emptyFilterMessage="No se encontraron resultados"
+              [showClear]="true"></p-dropdown>
             <mat-error *ngIf="usuario.get('equipo').hasError('required') && usuario.get('equipo').touched">
               {{Validaciones.Users.Equipo}}
             </mat-error>

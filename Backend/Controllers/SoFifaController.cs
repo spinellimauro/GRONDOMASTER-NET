@@ -41,5 +41,26 @@ namespace Gaby.Controllers
 
         }
 
+        [HttpGet("get-sofifa-teams")]
+        public async Task<IActionResult> GetEquiposSoFifa()
+        {
+
+            List<EquipoSofifa> equipos = await soFifaRepository.GetEquiposSoFifa();
+
+            return Ok(mapper.Map<List<EquipoSofifa>, List<EquipoSoFifaViewModel>>(equipos));
+
+        }
+
+        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = Roles.USER)]
+        [HttpPost("set-teams-table")]
+        public async Task<IActionResult> SetTeamsTable()
+        {
+
+            await soFifaRepository.SetEquiposSoFifa();
+
+            return Ok();
+
+        }
+
     }
 }

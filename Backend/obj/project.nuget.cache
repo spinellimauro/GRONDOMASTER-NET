@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ivLBs2AofWxLsD8g/yUFg1GZaJurVfML4ELp7MH7WZCQvIxFrJu1+rNMgQZCJcwGCF7bup1Sbhs6SuPUIZSMvw==",
+  "dgSpecHash": "seiZqT02MkhuP2qPebrqSTrf9iSRf7R8hmQKRech9Sp68Oya/6IL8NiHNvSRke4fi1NNMsTnrm7HDBIdUuCkcA==",
   "success": true,
   "projectFilePath": "C:\\Users\\gabri\\Documents\\Repos\\GRONDOMASTER-NET\\Backend\\Backend.csproj",
   "expectedPackageFiles": [
@@ -68,6 +68,7 @@
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",

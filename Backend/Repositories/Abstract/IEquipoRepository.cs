@@ -14,5 +14,6 @@ public interface IEquipoRepository
 
     Task<Equipo> FindEquipoByIdAsync(int id);
     void SetUser(Equipo equipo, int usuarioId);
+    Task<Equipo> CreateEquipoByEquipoSoFifa(EquipoSofifa equipoSofifa);
 
 }

@@ -13,8 +13,13 @@ public class EquipoSofifaConfiguration : IEntityTypeConfiguration<EquipoSofifa>
         });
 
         builder
-                .Property(contact => contact.Nombre)
+                .Property(equipoSoFifa => equipoSoFifa.Nombre)
                 .HasColumnType("nvarchar(70)")
+                .IsRequired();
+
+         builder
+                .Property(equipoSoFifa => equipoSoFifa.UrlImage)
+                .HasColumnType("nvarchar(60)")
                 .IsRequired();
     }
 }

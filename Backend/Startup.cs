@@ -141,6 +141,7 @@ public class Startup
         }
 
         // app.UseHttpsRedirection();
+        app.UseMiddleware<ExceptionMiddleware>();
 
         app.UseRouting();
         app.UseCors(MyAllowSpecificOrigins);

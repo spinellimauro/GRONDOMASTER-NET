@@ -53,7 +53,7 @@ export class RegistroComponent implements OnInit {
       id: ["0"],
       nombre: ["", [Validators.required]],
       apellido: ["", [Validators.required]],
-      username: ["", [Validators.required, Validators.email]],
+      email: ["", [Validators.required, Validators.email]],
       password: [
         "",
         [
@@ -96,7 +96,7 @@ export class RegistroComponent implements OnInit {
 
     this.equiposService.getEquiposSofifa().subscribe((data: Equipo[]) => {
       data.forEach(team => {
-        team.url = "https://cdn.sofifa.com/teams/" + team.idSofifa + "/30.png"
+        team.urlImage = "https://cdn.sofifa.com/teams/" + team.idSoFifa + "/30.png"
       });
       console.log(data);
       this.teams = data;
@@ -105,6 +105,7 @@ export class RegistroComponent implements OnInit {
 
   guardar() {
     const model = this.usuario.getRawValue();
+    console.log(model);
 
     this.usuariosService.createUsuario(model).subscribe((data) => {
       this.toastService.success(

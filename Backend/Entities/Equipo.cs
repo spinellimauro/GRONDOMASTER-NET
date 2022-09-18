@@ -7,14 +7,15 @@ public class Equipo
     public string? Nombre { get; set; }
     public List<Jugador>? Jugadores { get; set; }
     public DT? DT { get; set; }
-    // public int IdManager { get; set; }
     public int? ManagerId { get; set; }
+    public EquipoSofifa EquipoSofifa { get; set; }
+    public int? EquipoSoFifaId { get; set; }
     public List<Partido>? PartidosJugadosLocal { get; set; }
     public List<Partido>? PartidosJugadosVisitante { get; set; }
     public List<TorneoEquipo>? TorneosEquipos { get; set; }
 
     public Equipo() {
-        // DT = new DT();
+        EquipoSofifa = new EquipoSofifa();
         Jugadores = new List<Jugador>();
         PartidosJugadosLocal = new List<Partido>();
         PartidosJugadosVisitante = new List<Partido>();

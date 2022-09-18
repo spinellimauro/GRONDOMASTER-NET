@@ -13,5 +13,8 @@ public interface ISoFifaRepository
 {
 
     Task<List<Jugador>> GetJugadoresBySearch(string query);
-
+    Task<List<EquipoSofifa>> GetEquipos(int offset);
+    Task<List<EquipoSofifa>> GetEquiposSoFifa();
+    Task<List<EquipoSofifa>> SetEquiposSoFifa();
+    Task<EquipoSofifa> GetEquipoSoFifaById(int id);
 }

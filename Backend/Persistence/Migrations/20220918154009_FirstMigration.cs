@@ -58,27 +58,14 @@ namespace Backend.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Equipos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(70)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Equipos", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EquiposSofifa",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(70)", nullable: false),
-                    IdSoFifa = table.Column<int>(type: "int", nullable: false)
+                    IdSoFifa = table.Column<int>(type: "int", nullable: false),
+                    UrlImage = table.Column<string>(type: "nvarchar(60)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -256,6 +243,27 @@ namespace Backend.Persistence.Migrations
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Equipos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(70)", nullable: false),
+                    ManagerId = table.Column<int>(type: "int", nullable: true),
+                    EquipoSoFifaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Equipos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Equipos_EquiposSofifa_EquipoSoFifaId",
+                        column: x => x.EquipoSoFifaId,
+                        principalTable: "EquiposSofifa",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -577,6 +585,12 @@ namespace Backend.Persistence.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Equipos_EquipoSoFifaId",
+                table: "Equipos",
+                column: "EquipoSoFifaId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Jugadores_IdEquipo",
                 table: "Jugadores",
                 column: "IdEquipo");
@@ -703,9 +717,6 @@ namespace Backend.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "EquiposSofifa");
-
-            migrationBuilder.DropTable(
                 name: "OfertasJugador");
 
             migrationBuilder.DropTable(
@@ -755,6 +766,9 @@ namespace Backend.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Equipos");
+
+            migrationBuilder.DropTable(
+                name: "EquiposSofifa");
         }
     }
 }

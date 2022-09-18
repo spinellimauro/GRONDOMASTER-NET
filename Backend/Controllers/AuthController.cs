@@ -28,6 +28,7 @@ namespace Gaby.Controllers
         private readonly RoleManager<ApplicationRole> roleManager;
         private readonly IConfiguration Configuration;
         private readonly IEquipoRepository equipoRepository;
+        private readonly ISoFifaRepository equipoSoFifaRepository;
         // private readonly DbSeeder dbSeeder;
 
         public AuthController(IAuthRepository _repository,
@@ -39,7 +40,9 @@ namespace Gaby.Controllers
             IMapper _mapper,
             IOptions<Messages> _messages,
             IConfiguration configuration,
-            IEquipoRepository _equipoRepository)
+            IEquipoRepository _equipoRepository,
+            ISoFifaRepository _equipoSoFifaRepository)
+            
         {
             userManager = _userManager;
             roleManager = _roleManager;
@@ -51,6 +54,7 @@ namespace Gaby.Controllers
             helper = _helper;
             settings = _settings.Value;
             equipoRepository = _equipoRepository;
+            equipoSoFifaRepository = _equipoSoFifaRepository;
             // dbSeeder = _dbSeeder;
         }
 
@@ -86,8 +90,10 @@ namespace Gaby.Controllers
             user.LockoutEnd = null;
             user.LastLoginTime = Now;
 
-            if (!user.FirstLogin)
+            if (!user.FirstLogin) {
                 user.FirstLoginDate = helper.GetCurrentDateTime();
+                user.FirstLogin = true;
+            }
 
             await userManager.UpdateAsync(user);
 
@@ -129,8 +135,8 @@ namespace Gaby.Controllers
         }
 
         // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = Roles.ADM)]
-        [HttpPost("Register")]
-        public async Task<object> Registro([FromBody] SaveUserViewModel model)
+        [HttpPost("SignUp")]
+        public async Task<object> Registro([FromBody] RegisterViewModel model)
         {
 
             ApplicationUser user = await userManager.FindByEmailAsync(model.Email);
@@ -138,15 +144,23 @@ namespace Gaby.Controllers
             if (user != null)
                 return BadRequest(Configuration["Messages:ErrorUsuarioExistente"]);
 
-            DT usuario = mapper.Map<SaveUserViewModel, DT>(model);
+            DT usuario = mapper.Map<RegisterViewModel, DT>(model);
 
-            ApplicationUser newUser = mapper.Map<SaveUserViewModel, ApplicationUser>(model);
+            ApplicationUser newUser = mapper.Map<RegisterViewModel, ApplicationUser>(model);
 
             List<ApplicationRole> roles = await repository.SetApplicationUser(newUser, model.Email, "USER");
 
+            usuario.IdEquipo = usuario.Equipo.EquipoSofifa.Id;
             newUser.Usuario = repository.SetUsuariosRolesByIdentitiesRoles(roles, usuario);
             newUser.Usuario = repository.SetDefaultDataDT(newUser.Usuario, usuario.IdEquipo);
-            newUser.Usuario.Equipo = await equipoRepository.FindEquipoByIdAsync(usuario.IdEquipo);
+
+            EquipoSofifa equipoSofifa = await equipoSoFifaRepository.GetEquipoSoFifaById(usuario.IdEquipo);
+
+            if (equipoSofifa == null)
+                return NotFound(Configuration["Messages:ErrorEquipoSofifa"]);
+
+            Equipo equipo = await equipoRepository.CreateEquipoByEquipoSoFifa(equipoSofifa);
+            newUser.Usuario.Equipo = equipo;
 
             string newPassword = model.Password;
             var identityResult = await repository.CreateUserAsync(newUser, newPassword);
@@ -160,7 +174,7 @@ namespace Gaby.Controllers
 
             equipoRepository.SetUser(newUser.Usuario.Equipo, usuario.Id);
 
-            return Ok(mapper.Map<DT, SaveUserViewModel>(usuario));
+            return Ok(mapper.Map<DT, RegisterViewModel>(usuario));
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = Roles.USER)]

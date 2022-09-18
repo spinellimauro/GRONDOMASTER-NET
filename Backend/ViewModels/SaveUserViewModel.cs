@@ -8,12 +8,14 @@ public class SaveUserViewModel
     public string Email { get; set; }
     public string Password { get; set; }
     public bool Enabled { get; set; }
+    public EquipoSofifa Equipo { get; set; }
     public List<ApplicationRole> Perfiles { get; set; }
     public List<UsuarioRol> UsuarioRoles { get; set; }
     public int IdEquipo { get; set; }
 
     public SaveUserViewModel()
     {
+        Equipo = new EquipoSofifa();
         Perfiles = new List<ApplicationRole>();
         UsuarioRoles = new List<UsuarioRol>();
     }

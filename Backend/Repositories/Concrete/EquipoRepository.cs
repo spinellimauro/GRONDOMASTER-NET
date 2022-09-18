@@ -28,10 +28,19 @@ public class EquipoRepository : IEquipoRepository
 
     public async void SetUser(Equipo equipo, int UsuarioId)
     {
-
         equipo.ManagerId = UsuarioId;
 
         db.Equipos.Update(equipo);
         await db.SaveChangesAsync();
+    }
+
+    public async Task<Equipo> CreateEquipoByEquipoSoFifa(EquipoSofifa equipoSofifa)
+    {
+        Equipo equipo = new Equipo();
+        equipo.EquipoSoFifaId = equipoSofifa.Id;
+        equipo.Nombre = equipoSofifa.Nombre;
+        equipo.EquipoSofifa = equipoSofifa;
+
+        return equipo;
     }
 }
