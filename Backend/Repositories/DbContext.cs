@@ -60,4 +60,5 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public DbSet<TorneoEquipo> TorneosEquipos { get; set; }
     public DbSet<ApplicationUser> Users { get; set; }
     public DbSet<UsuarioRol> UsuariosRoles { get; set; }
+    // public DbSet<MasterLog> MasterLogs { get; set; }
 }

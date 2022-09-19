@@ -29,6 +29,7 @@ namespace Gaby.Controllers
         private readonly IConfiguration Configuration;
         private readonly IEquipoRepository equipoRepository;
         private readonly ISoFifaRepository equipoSoFifaRepository;
+        private readonly ILogger<AuthController> logger;
         // private readonly DbSeeder dbSeeder;
 
         public AuthController(IAuthRepository _repository,
@@ -41,7 +42,8 @@ namespace Gaby.Controllers
             IOptions<Messages> _messages,
             IConfiguration configuration,
             IEquipoRepository _equipoRepository,
-            ISoFifaRepository _equipoSoFifaRepository)
+            ISoFifaRepository _equipoSoFifaRepository,
+            ILogger<AuthController> _logger)
             
         {
             userManager = _userManager;
@@ -55,6 +57,7 @@ namespace Gaby.Controllers
             settings = _settings.Value;
             equipoRepository = _equipoRepository;
             equipoSoFifaRepository = _equipoSoFifaRepository;
+            logger = _logger;
             // dbSeeder = _dbSeeder;
         }
 
@@ -64,13 +67,18 @@ namespace Gaby.Controllers
             var Now = helper.GetCurrentDateTime();
 
             // dbSeeder.SeedAsync().Wait();
+            logger.LogInformation($"Busco usuario: {model.Email}");
             ApplicationUser user = await repository.FindUserByEmailAsync(model.Email);
 
             if (user == null)
                 return NotFound(Configuration["Messages:ErrorUsuarioPasswordInvalido"]);
 
+            logger.LogInformation($"Usuario Encontrado: {model.Email}");
+
             if (await userManager.IsLockedOutAsync(user))
                 return NotFound(Configuration["Messages:ErrorCuentaBloqueda"]);
+
+            logger.LogInformation($"Usuario no bloqueado: {model.Email}");
 
             if (!await userManager.CheckPasswordAsync(user, model.Password))
             {
@@ -85,6 +93,8 @@ namespace Gaby.Controllers
             if (user.Usuario == null)
                 return NotFound(Configuration["Messages:ErrorIdUsuario"]);
 
+            logger.LogInformation($"Usuario usuario encontrado: {model.Email}");
+
             user.AccessFailedCount = 0;
             user.LockoutEnabled = false;
             user.LockoutEnd = null;
@@ -93,9 +103,12 @@ namespace Gaby.Controllers
             if (!user.FirstLogin) {
                 user.FirstLoginDate = helper.GetCurrentDateTime();
                 user.FirstLogin = true;
+
+                logger.LogInformation($"Primer login del usuario: {model.Email}");
             }
 
             await userManager.UpdateAsync(user);
+            logger.LogInformation($"User modificado en login: {model.Email}");
 
             bool ExpiredPassword = false;
 
@@ -139,6 +152,7 @@ namespace Gaby.Controllers
         public async Task<object> Registro([FromBody] RegisterViewModel model)
         {
 
+            logger.LogInformation($"Busco si existe usuario: {model.Email}");
             ApplicationUser user = await userManager.FindByEmailAsync(model.Email);
 
             if (user != null)

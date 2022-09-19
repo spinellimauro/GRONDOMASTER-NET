@@ -1,3 +1,5 @@
+using Serilog;
+
 public class Program
 {
     public static void Main(string[] args)
@@ -10,5 +12,5 @@ public class Program
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
-            });
+            }).UseSerilog();
 }

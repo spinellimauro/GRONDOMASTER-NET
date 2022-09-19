@@ -13,7 +13,12 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using Serilog;
+using Serilog.Context;
+using System.Data;
+using Serilog.Sinks.MSSqlServer;
+using System.Collections.ObjectModel;
+using Serilog.Events;
 
 public class Startup
 {
@@ -36,6 +41,29 @@ public class Startup
         //     options.UseSqlServer(connection);
         // }
         );
+
+         var configuration = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json")
+        .Build();
+
+        string connectionString = Configuration.GetConnectionString("dBConnection");            
+           var columnOptions = new ColumnOptions
+           {  
+               AdditionalColumns = new Collection<SqlColumn>  
+               {  
+                   new SqlColumn("UserName", SqlDbType.NVarChar)  
+                 }  
+           };  
+           Log.Logger = new LoggerConfiguration()
+               .WriteTo.MSSqlServer(
+                   connectionString: connectionString,
+                   tableName: Configuration.GetSection("Serilog:TableName").Value,
+                   appConfiguration: configuration,
+                   autoCreateSqlTable: true,
+                   columnOptionsSection: Configuration.GetSection("Serilog:ColumnOptions"),
+                   schemaName: Configuration.GetSection("Serilog:SchemaName").Value)
+               .CreateLogger();
+
 
         services.AddIdentity<ApplicationUser, ApplicationRole>(config =>
             {
@@ -142,6 +170,14 @@ public class Startup
 
         // app.UseHttpsRedirection();
         app.UseMiddleware<ExceptionMiddleware>();
+
+        app.Use(async (httpContext, next) =>  
+            {  
+                var userName = httpContext.User.Identity.IsAuthenticated ? httpContext.User.Identity.Name : "Guest";
+                LogContext.PushProperty("Username", userName);
+                await next.Invoke();  
+            }  
+            );  
 
         app.UseRouting();
         app.UseCors(MyAllowSpecificOrigins);
