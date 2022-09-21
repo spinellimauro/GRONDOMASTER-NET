@@ -43,4 +43,9 @@ public class EquipoRepository : IEquipoRepository
 
         return equipo;
     }
+
+    public async Task<Equipo> GetEquipo(int id)
+    {
+        return await db.Equipos.Where(equipo => equipo.Id == id).Include(e => e.Jugadores).FirstOrDefaultAsync();
+    }
 }

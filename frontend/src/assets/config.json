@@ -5,7 +5,7 @@
     "Auth": "auth",
     "Usuario": "user",
     "Jugador": "soFifa",
-    "Plantilla": "player",
+    "Plantilla": "equipo",
     "Sofifa": "equipos-sofifa"
   },
   "Mensajes": {

@@ -16,4 +16,6 @@ public interface IEquipoRepository
     void SetUser(Equipo equipo, int usuarioId);
     Task<Equipo> CreateEquipoByEquipoSoFifa(EquipoSofifa equipoSofifa);
 
+    Task<Equipo> GetEquipo(int id);
+
 }

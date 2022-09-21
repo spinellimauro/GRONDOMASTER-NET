@@ -16,7 +16,7 @@
   <ng-template pTemplate="body" let-jugador>
     <tr class="ajustarTexto">
       <td>
-        <img class="avatar" width="50" height="50"
+        <img class="avatar" width="150" height="150"
           src="https://futhead.cursecdn.com/static/img/21/players/{{jugador.idWeb}}.png" (error)="changeSource($event)" />
       </td>
       <td *ngFor="let col of cols">

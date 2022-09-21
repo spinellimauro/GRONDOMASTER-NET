@@ -8,7 +8,7 @@ export class PlantillaService {
 
   getPlantilla() {
     return this.http.get(
-      this.configService.PlantillaURI + 'get-team/'
+      this.configService.PlantillaURI + 'get-team?'
     );
   }
 }
