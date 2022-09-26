@@ -48,4 +48,14 @@ public class EquipoRepository : IEquipoRepository
     {
         return await db.Equipos.Where(equipo => equipo.Id == id).Include(e => e.Jugadores).FirstOrDefaultAsync();
     }
+
+    public async Task<Jugador> ComprarJugador(Jugador jugador, int equipoId)
+    {
+        jugador.IdWeb = jugador.Id;
+        jugador.Id = 0;
+        jugador.IdEquipo = equipoId;
+        db.Jugadores.Add(jugador);
+        await db.SaveChangesAsync();
+        return jugador;
+    }
 }

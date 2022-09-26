@@ -3,6 +3,7 @@ import { Jugador } from 'src/app/models/Jugador';
 import { ConfigService } from 'src/app/utils/config.service';
 import { UtilService } from 'src/app/utils/util.service';
 import { JugadorService } from '../jugadorService';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'searchJugadores-root',
@@ -17,7 +18,9 @@ export class SearchJugadoresComponent implements OnInit {
   constructor(
     private jugadorService: JugadorService,
     private configService: ConfigService,
+    private toastyService: ToastrService,
     private utilService: UtilService
+    
   ) {}
 
   ngOnInit() {
@@ -48,5 +51,15 @@ export class SearchJugadoresComponent implements OnInit {
         });
        
       });
+  }
+
+  comprar(jugador : Jugador) {
+    this.jugadorService
+      .comprarJugador(jugador).subscribe(() => {
+        this.toastyService.success(
+            "Mail enviado",
+            "Éxito",
+        );
+  });
   }
 }

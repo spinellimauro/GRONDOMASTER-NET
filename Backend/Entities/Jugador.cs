@@ -24,7 +24,7 @@ public class Jugador
 
     public Jugador()
     {
-        Equipo = new Equipo();
+        // Equipo = new Equipo();
         OfertasJugador = new List<OfertaJugador>();
         Transferencias = new List<Transferencia>();
         Sucesos = new List<Suceso>();

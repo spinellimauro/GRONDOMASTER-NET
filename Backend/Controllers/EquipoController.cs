@@ -39,12 +39,25 @@ namespace Gaby.Controllers
         {
             Equipo equipoDt;
             int id = 1;
+            //var _bearer_token = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
             
             equipoDt = await equipoRepository.GetEquipo(id);
 
             List<Jugador> jugadores = equipoDt.Jugadores;
 
             return Ok(mapper.Map<List<Jugador>, List<JugadoresSoFifaViewModel>>(jugadores));
+
+        }
+
+        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = Roles.USER)]
+        [HttpPost("comprar-jugador")]
+         public async Task<IActionResult> comprarJugador([FromBody] JugadoresSoFifaViewModel model)
+        {
+            Jugador jugador = mapper.Map<JugadoresSoFifaViewModel, Jugador>(model);
+            int id = 1;
+            await equipoRepository.ComprarJugador(jugador,id);
+
+            return Ok();
 
         }
 

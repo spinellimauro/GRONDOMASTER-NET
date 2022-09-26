@@ -18,4 +18,6 @@ public interface IEquipoRepository
 
     Task<Equipo> GetEquipo(int id);
 
+    Task<Jugador> ComprarJugador(Jugador jugador, int equipoId);
+
 }
